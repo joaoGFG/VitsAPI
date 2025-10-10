@@ -2,32 +2,44 @@ package br.com.vits.orc.vits_agrochain.model;
 
 import java.time.LocalDate;
 
-import jakarta.annotation.Generated;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 
-@Data
-@Entity
-@Builder
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Entity
+@Table(name = "VITS_ORC_USUARIO")
 public class User {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(
+        strategy = GenerationType.SEQUENCE,  
+        generator = "usuario_seq_gen"        
+    )
+    @SequenceGenerator(
+        name = "usuario_seq_gen", 
+        sequenceName = "seq_vits_usuario",     
+        allocationSize = 1
+    )
+    @Column(name = "vits_id_usuario")
     private Long userId;
 
+    @NotBlank
+    @Size(max = 200)
+    @Column(name = "vits_nome_usuario")
     private String userName;
 
     @PastOrPresent
+    @Column(name = "vits_data_cadastro")
     private LocalDate registrationDate;
 
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "id_tipo_usuario") 
     private UserType userType;
-
 }

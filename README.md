@@ -124,7 +124,7 @@ Resposta esperada: `"Verdantis API is running"`
 
 ## 🏗️ Arquitetura e Diagramas
 
-### Diagrama de Entidade-Relacionamento (DER)
+### Diagrama de Entidade-Relacionamento (DER) (De zoom para melhor visibilidade)
 
 ![DER](/documentation/image-1.png)
 

@@ -42,4 +42,5 @@ public class UserService {
                     "Usuário não encontrado com o id: " + id
                 ));
     }
+
 }

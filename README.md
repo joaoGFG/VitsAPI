@@ -22,6 +22,28 @@ Uma plataforma integrada de rastreabilidade digital que conecta produtores, dist
 
 ---
 
+### PDF da documentação completa em /documentation
+
+---
+
+## ⚠️ Tipos de Usuário
+
+**Para criar um usuário, você precisa referenciar um tipo existente.** Consulte os tipos disponíveis via:
+
+```http
+GET http://localhost:8080/user-types
+```
+
+### Por que classe ao invés de enum?
+
+Optamos por **entidade JPA** para permitir:
+- Adicionar novos tipos dinamicamente
+- Gerenciamento via banco de dados Oracle
+- Normalização e integridade referencial
+- Conselho do professor de Banco de Dados
+
+![Tipos de Usuário Disponíveis](/documentation/tipos_usuario.png)
+
 ## 👥 Equipe GreenCore
 
 ### Integrantes e Responsabilidades
@@ -175,7 +197,7 @@ O vídeo apresenta:
 
 A documentação interativa da API está disponível através do Swagger UI:
 
-**URL do Swagger:** http://localhost:8080/swagger-ui.html
+**URL do Swagger:** http://localhost:8080/swagger-ui/index.html
 
 Ou acesse diretamente:
 
@@ -204,7 +226,133 @@ Body: "Verdantis API is running"
 
 ---
 
-#### 2. Criar Usuário
+#### 2. Listar Tipos de Usuário
+Retorna todos os tipos de usuário disponíveis no sistema.
+
+**Request:**
+```http
+GET /user-types
+```
+
+**Response:**
+```json
+Status: 200 OK
+Content-Type: application/json
+
+[
+  {
+    "userTypeId": 1,
+    "userDescription": "Produtor Rural"
+  },
+  {
+    "userTypeId": 2,
+    "userDescription": "Gestor"
+  },
+  {
+    "userTypeId": 3,
+    "userDescription": "Comprador"
+  }
+]
+```
+
+---
+
+#### 3. Buscar Tipo de Usuário por ID
+Retorna um tipo de usuário específico.
+
+**Request:**
+```http
+GET /user-types/{id}
+```
+
+**Response:**
+```json
+Status: 200 OK
+Content-Type: application/json
+
+{
+  "userTypeId": 1,
+  "userDescription": "Produtor Rural"
+}
+```
+
+**Erro (404):**
+```json
+{
+  "timestamp": "2025-10-11T10:30:00",
+  "status": 404,
+  "error": "Not Found",
+  "message": "UserType não encontrado com o id: 999"
+}
+```
+
+---
+
+#### 4. Listar Usuários
+Retorna todos os usuários cadastrados.
+
+**Request:**
+```http
+GET /users
+```
+
+**Response:**
+```json
+Status: 200 OK
+Content-Type: application/json
+
+[
+  {
+    "userId": 1,
+    "userName": "João Silva",
+    "registrationDate": "2025-10-11T14:30:00",
+    "userType": {
+      "userTypeId": 1,
+      "userDescription": "Produtor Rural"
+    }
+  }
+]
+```
+
+---
+
+#### 5. Buscar Usuário por ID
+Retorna um usuário específico.
+
+**Request:**
+```http
+GET /users/{id}
+```
+
+**Response:**
+```json
+Status: 200 OK
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "userName": "João Silva",
+  "registrationDate": "2025-10-11T14:30:00",
+  "userType": {
+    "userTypeId": 1,
+    "userDescription": "Produtor Rural"
+  }
+}
+```
+
+**Erro (404):**
+```json
+{
+  "timestamp": "2025-10-11T10:30:00",
+  "status": 404,
+  "error": "Not Found",
+  "message": "Usuário não encontrado com o id: 999"
+}
+```
+
+---
+
+#### 6. Criar Usuário
 Cria um novo usuário no sistema (produtor, gestor ou comprador).
 
 **Request:**
@@ -214,7 +362,7 @@ Content-Type: application/json
 
 {
   "userName": "João Silva",
-  "registrationDate": "2025-10-11",
+  "registrationDate": "2025-10-11T14:30:00",
   "userType": {
     "userTypeId": 1
   }
@@ -229,18 +377,17 @@ Content-Type: application/json
 {
   "userId": 1,
   "userName": "João Silva",
-  "registrationDate": "2025-10-11",
+  "registrationDate": "2025-10-11T14:30:00",
   "userType": {
     "userTypeId": 1,
-    "producerUser": "Sim",
-    "managerUser": "Não"
+    "userDescription": "Produtor Rural"
   }
 }
 ```
 
 **Validações:**
 - `userName`: Obrigatório, máximo 200 caracteres
-- `registrationDate`: Deve ser data atual ou passada
+- `registrationDate`: Obrigatório (formato ISO-8601: YYYY-MM-DDTHH:mm:ss)
 - `userType.userTypeId`: Obrigatório, deve existir no banco de dados
 
 **Possíveis Erros:**
@@ -272,7 +419,7 @@ Status: 400 BAD REQUEST
 {
   "userId": "Long (gerado automaticamente)",
   "userName": "String (obrigatório, max 200 caracteres)",
-  "registrationDate": "LocalDate (formato: YYYY-MM-DD)",
+  "registrationDate": "LocalDateTime (formato ISO-8601: YYYY-MM-DDTHH:mm:ss)",
   "userType": "UserType (objeto)"
 }
 ```
@@ -281,8 +428,7 @@ Status: 400 BAD REQUEST
 ```json
 {
   "userTypeId": "Long",
-  "producerUser": "String (Sim/Não)",
-  "managerUser": "String (Sim/Não)"
+  "userDescription": "String (descrição do tipo, ex: Produtor Rural, Gestor, Comprador)"
 }
 ```
 

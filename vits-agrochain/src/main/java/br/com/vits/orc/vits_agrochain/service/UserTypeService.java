@@ -15,11 +15,7 @@ public class UserTypeService {
     
     @Autowired
     private UserTypeRepository userTypeRepository;
-
-    public UserType create(UserType userType) {
-        return userTypeRepository.save(userType);
-    }
-
+    
     public List<UserType> listAll() {
         return userTypeRepository.findAll();
     }
@@ -32,4 +28,5 @@ public class UserTypeService {
                     "UserType não encontrado com o id: " + id
                 ));
     }
+
 }

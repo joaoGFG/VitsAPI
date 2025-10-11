@@ -19,15 +19,12 @@ public class UserType {
     )
     @SequenceGenerator(
         name = "tipo_usuario_seq_gen", 
-        sequenceName = "seq_vits_tipo_usuario", 
+        sequenceName = "SEQ_TIPO_USUARIO", 
         allocationSize = 1
     )
     @Column(name = "id_tipo_usuario")
     private Long userTypeId;
 
-    @Column(name = "usuario_produtor")
-    private String producerUser;
-
-    @Column(name = "usuario_gestor")
-    private String managerUser;
+    @Column(name = "vits_usuario_descrição", length = 50)
+    private String userDescription;
 }

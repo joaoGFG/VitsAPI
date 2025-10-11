@@ -1,47 +1,46 @@
 package br.com.vits.orc.vits_agrochain.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import br.com.vits.orc.vits_agrochain.model.User;
-import br.com.vits.orc.vits_agrochain.model.UserType;
-import br.com.vits.orc.vits_agrochain.repository.UserRepository;
-import br.com.vits.orc.vits_agrochain.repository.UserTypeRepository;
+import br.com.vits.orc.vits_agrochain.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/users")
 @Tag(name = "Usuários", description = "Gerenciamento de usuários do sistema Verdantis")
-@Slf4j
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
-    @Autowired
-    private UserTypeRepository userTypeRepository;
+    @GetMapping
+    @Operation(summary = "Listar todos os usuários", description = "Retorna lista completa de usuários cadastrados")
+    public List<User> listAll() {
+        log.info("Listando todos os usuários");
+        return userService.listAll();
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "Buscar usuário por ID", description = "Retorna um usuário específico pelo seu ID")
+    public User getById(@PathVariable Long id) {
+        log.info("Buscando usuário com id: {}", id);
+        return userService.getUserById(id);
+    }
 
     @PostMapping
-    @Operation(summary = "Criar novo usuário", description = "Cria um novo usuário no sistema")
-    public ResponseEntity<User> create(@RequestBody User user) {
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Criar novo usuário", description = "Cria um novo usuário no sistema (produtor, gestor ou comprador)")
+    public User create(@RequestBody @Valid User user) {
         log.info("Criando usuário: {}", user);
-
-        Long userTypeId = user.getUserType().getUserTypeId();
-        
-        UserType userTypeOriginal = userTypeRepository.findById(userTypeId)
-            .orElseThrow(() -> new EntityNotFoundException("UserType não encontrado com o id: " + userTypeId));
-
-        user.setUserType(userTypeOriginal);
-
-        User savedUser = userRepository.save(user);
-        
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
+        return userService.create(user);
     }
 }

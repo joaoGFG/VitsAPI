@@ -1,10 +1,9 @@
 package br.com.vits.orc.vits_agrochain.model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -24,7 +23,7 @@ public class User {
     )
     @SequenceGenerator(
         name = "usuario_seq_gen", 
-        sequenceName = "seq_vits_usuario",     
+        sequenceName = "SEQ_USUARIO",     
         allocationSize = 1
     )
     @Column(name = "vits_id_usuario")
@@ -35,9 +34,8 @@ public class User {
     @Column(name = "vits_nome_usuario")
     private String userName;
 
-    @PastOrPresent
-    @Column(name = "vits_data_cadastro")
-    private LocalDate registrationDate;
+    @Column(name = "vits_data_cadastro", nullable = false)
+    private LocalDateTime registrationDate;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_tipo_usuario") 

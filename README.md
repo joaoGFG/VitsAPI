@@ -332,47 +332,26 @@ O projeto foi testado utilizando as seguintes abordagens:
 
 
 
-#### Cenários de Teste Implementados:
+#### Endpoints (Swagger)
 
-✅ **Teste 1: Health Check**
-- Endpoint: `GET /`
-- Resultado Esperado: Status 200, mensagem de boas-vindas
-
-✅ **Teste 2: Criar Usuário com Sucesso**
-- Endpoint: `POST /users`
-- Body: Usuário válido com UserType existente
-- Resultado Esperado: Status 201, usuário criado com ID
-
-✅ **Teste 3: Criar Usuário com UserType Inválido**
-- Endpoint: `POST /users`
-- Body: Usuário com UserType não existente
-- Resultado Esperado: Status 404, mensagem de erro
-
-✅ **Teste 4: Criar Usuário com Dados Inválidos**
-- Endpoint: `POST /users`
-- Body: userName em branco ou data futura
-- Resultado Esperado: Status 400, erros de validação
-
-✅ **Teste 5: Persistência e Recuperação de Dados**
-- Verificação de que os dados são corretamente persistidos no Oracle Database
-- Consulta direta ao banco confirma integridade dos dados
+![Endpoints](/documentation/image.png)
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-| Categoria | Tecnologia | Versão | Função |
-|-----------|------------|--------|--------|
-| **Backend** | Java | 17 | Linguagem de programação |
-| **Framework** | Spring Boot | 3.5.6 | Framework para API REST |
-| **Persistência** | Spring Data JPA | - | Camada de acesso a dados |
-| **Banco de Dados** | Oracle Database | - | Armazenamento principal |
-| **Driver JDBC** | ojdbc11 | - | Conexão com Oracle |
-| **Validação** | Hibernate Validator | - | Validação de dados |
-| **Build** | Maven | 3.8+ | Gerenciamento de dependências |
-| **Utilitários** | Lombok | - | Redução de boilerplate code |
-| **Logging** | SLF4J | - | Sistema de logs |
-| **Monitoramento** | Spring Actuator | - | Health checks e métricas |
+| Categoria | Tecnologia | Função |
+|-----------|------------|--------|
+| **Backend** | Java | Linguagem de programação |
+| **Framework** | Spring Boot | Framework para API REST |
+| **Persistência** | Spring Data JPA | Camada de acesso a dados |
+| **Banco de Dados** | Oracle Database | Armazenamento principal |
+| **Driver JDBC** | ojdbc11 | Conexão com Oracle |
+| **Validação** | Hibernate Validator | Validação de dados |
+| **Build** | Maven | Gerenciamento de dependências |
+| **Utilitários** | Lombok | Redução de boilerplate code |
+| **Logging** | SLF4J | Sistema de logs |
+| **Monitoramento** | Spring Actuator | Health checks e métricas |
 
 ---
 

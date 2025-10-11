@@ -104,9 +104,9 @@ Resposta esperada: `"Verdantis API is running"`
 
 ### Diagrama de Entidade-Relacionamento (DER)
 
-![DER](/VitsAPI/documentation/image-1.png)
+![DER](/documentation/image-1.png)
 
-![Diagrama de Classes UML](/VitsAPI/documentation/image.png)
+![Diagrama de Classes UML](/documentation/image.png)
 
 ### Arquitetura da Solução
 

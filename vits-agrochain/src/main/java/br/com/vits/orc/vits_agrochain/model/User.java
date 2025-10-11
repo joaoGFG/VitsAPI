@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -34,9 +35,10 @@ public class User {
     @Column(name = "vits_nome_usuario")
     private String userName;
 
-    @Column(name = "vits_data_cadastro", nullable = false)
-    private LocalDateTime registrationDate;
-
+    @NotNull
+    @Column(name = "vits_data_cadastro")
+    private LocalDateTime registrationDate;    
+    
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_tipo_usuario") 
     private UserType userType;

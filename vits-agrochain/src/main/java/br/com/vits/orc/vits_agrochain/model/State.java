@@ -18,7 +18,7 @@ public class State {
 
 	@Id
 	@Column(name = "vits_cod_estado")
-	private Long stateCode;
+	private String stateCode;
 
 	@NotBlank
 	@Size(max = 100)
@@ -26,6 +26,7 @@ public class State {
 	private String stateName;
 
 	@ManyToOne()
+	@JoinColumn(name = "vits_cod_pais", referencedColumnName = "vits_cod_pais")
 	private Country country;
 
 	@OneToMany(mappedBy = "state")

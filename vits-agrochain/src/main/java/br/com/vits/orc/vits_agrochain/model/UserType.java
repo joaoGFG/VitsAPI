@@ -1,6 +1,7 @@
 package br.com.vits.orc.vits_agrochain.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Getter
@@ -25,6 +26,7 @@ public class UserType {
     @Column(name = "id_tipo_usuario")
     private Long userTypeId;
 
-    @Column(name = "vits_usuario_descrição", length = 50)
+    @NotBlank
+    @Column(name = "vits_usuario_descrição")
     private String userDescription;
 }

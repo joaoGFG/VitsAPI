@@ -106,50 +106,52 @@ Resposta esperada: `"Verdantis API is running"`
 
 ![DER](/documentation/image-1.png)
 
+### Diagrama de Classes UML
+
 ![Diagrama de Classes UML](/documentation/image.png)
 
 ### Arquitetura da Solução
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│                   FRONTEND LAYER                     │
-│  ┌──────────────┐  ┌──────────────┐  ┌───────────┐ │
-│  │  Next.js +   │  │ React Native │  │   APEX    │ │
-│  │    React     │  │    Mobile    │  │ Dashboards│ │
-│  └──────────────┘  └──────────────┘  └───────────┘ │
+│                   FRONTEND LAYER                    │
+│  ┌──────────────┐  ┌──────────────┐  ┌───────────┐  │
+│  │  Next.js +   │  │ React Native │  │   APEX    │  │
+│  │    React     │  │    Mobile    │  │ Dashboards│  │
+│  └──────────────┘  └──────────────┘  └───────────┘  │
 └─────────────────────────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────┐
-│                  BACKEND LAYER (API)                 │
-│  ┌──────────────────────────────────────────────┐  │
-│  │         Spring Boot (Java 17)                │  │
-│  │  • UserController (REST API)                 │  │
-│  │  • Repository Pattern (JPA)                  │  │
-│  │  • Validation & Exception Handling           │  │
-│  └──────────────────────────────────────────────┘  │
+│                   BACKEND (API)                     │
+│  ┌──────────────────────────────────────────────┐   │
+│  │              Spring Boot (Java 17)           │   │
+│  │  • UserController (REST API)                 │   │
+│  │  • Repository Pattern (JPA)                  │   │
+│  │  • Validation & Exception Handling           │   │
+│  └──────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────┐
-│                 DATA PERSISTENCE LAYER               │
-│  ┌──────────────────────────────────────────────┐  │
-│  │         Oracle Database                      │  │
-│  │  • VITS_ORC_USUARIO                          │  │
-│  │  • VITS_ORC_TIPO_USUARIO                     │  │
-│  │  • VITS_ORC_PAIS / ESTADO / MUNICIPIO        │  │
-│  │  • Sequences & Constraints                   │  │
-│  └──────────────────────────────────────────────┘  │
+│             DATA PERSISTENCE LAYER                  │
+│  ┌──────────────────────────────────────────────┐   │
+│  │              Oracle Database                 │   │
+│  │  • VITS_ORC_USUARIO                          │   │
+│  │  • VITS_ORC_TIPO_USUARIO                     │   │
+│  │  • VITS_ORC_PAIS / ESTADO / MUNICIPIO        │   │
+│  │  • Sequences & Constraints                   │   │
+│  └──────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────┐
-│              BLOCKCHAIN LAYER (Futuro)               │
-│  ┌──────────────────────────────────────────────┐  │
-│  │         Hyperledger Fabric                   │  │
-│  │  • Registro Imutável de Lotes                │  │
-│  │  • Hash de Segurança                         │  │
-│  └──────────────────────────────────────────────┘  │
+│              BLOCKCHAIN LAYER (Futuro)              │
+│  ┌──────────────────────────────────────────────┐   │
+│  │             Hyperledger Fabric               │   │
+│  │  • Registro Imutável de Lotes                │   │
+│  │  • Hash de Segurança                         │   │
+│  └──────────────────────────────────────────────┘   │
 └─────────────────────────────────────────────────────┘
 ```
 

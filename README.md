@@ -91,7 +91,7 @@ A aplicação estará disponível em: **http://localhost:8080**
 
 ### Verificação da API
 
-Acesse o endpoint de health check:
+Acesse o endpoint de status:
 ```
 GET http://localhost:8080/
 ```
@@ -104,7 +104,9 @@ Resposta esperada: `"Verdantis API is running"`
 
 ### Diagrama de Entidade-Relacionamento (DER)
 
+![DER](/documentation/image-1.png)
 
+![Diagrama de Classes UML](/documentation/image.png)
 
 ### Arquitetura da Solução
 
@@ -167,10 +169,38 @@ O vídeo apresenta:
 
 ## 📡 Documentação da API (Endpoints)
 
+### 🔗 Swagger UI
+
+A documentação interativa da API está disponível através do Swagger UI:
+
+**URL do Swagger:** http://localhost:8080/swagger-ui.html
+
+Ou acesse diretamente:
+
+**OpenAPI JSON:** http://localhost:8080/v3/api-docs
+
 ### Base URL
 ```
 http://localhost:8080
 ```
+
+### Endpoints Disponíveis
+
+#### 1. Health Check
+Verifica se a aplicação está em execução.
+
+**Request:**
+```http
+GET /
+```
+
+**Response:**
+```json
+Status: 200 OK
+Body: "Helloasd asdsasadsa"
+```
+
+---
 
 #### 2. Criar Usuário
 Cria um novo usuário no sistema (produtor, gestor ou comprador).

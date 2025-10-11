@@ -5,8 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @SpringBootApplication
 @RestController
+@Tag(name = "Status", description = "Verificação de status da aplicação")
 public class VitsAgrochainApplication {
 
 	public static void main(String[] args) {
@@ -14,8 +18,9 @@ public class VitsAgrochainApplication {
 	}
 	
 	@GetMapping("/")
+	@Operation(summary = "Status", description = "Verifica se a API está em execução")
 	public String index(){
-		return "Helloasd asdsasadsa";
+		return "Verdantis API is running";
 	}
 
 }

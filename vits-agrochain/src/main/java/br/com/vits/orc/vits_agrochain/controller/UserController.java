@@ -9,11 +9,16 @@ import br.com.vits.orc.vits_agrochain.model.User;
 import br.com.vits.orc.vits_agrochain.model.UserType;
 import br.com.vits.orc.vits_agrochain.repository.UserRepository;
 import br.com.vits.orc.vits_agrochain.repository.UserTypeRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/users") 
+@RequestMapping("/users")
+@Tag(name = "Usuários", description = "Gerenciamento de usuários do sistema Verdantis")
 @Slf4j
 public class UserController {
 
@@ -24,6 +29,7 @@ public class UserController {
     private UserTypeRepository userTypeRepository;
 
     @PostMapping
+    @Operation(summary = "Criar novo usuário", description = "Cria um novo usuário no sistema")
     public ResponseEntity<User> create(@RequestBody User user) {
         log.info("Criando usuário: {}", user);
 

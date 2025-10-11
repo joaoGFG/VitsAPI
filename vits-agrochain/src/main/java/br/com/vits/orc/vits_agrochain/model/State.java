@@ -2,6 +2,7 @@ package br.com.vits.orc.vits_agrochain.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -18,6 +19,7 @@ public class State {
 
 	@Id
 	@Column(name = "vits_cod_estado")
+	@NotBlank
 	private String stateCode;
 
 	@NotBlank
@@ -25,6 +27,7 @@ public class State {
 	@Column(name = "vits_nome_estado")
 	private String stateName;
 
+	@NotNull
 	@ManyToOne()
 	@JoinColumn(name = "vits_cod_pais", referencedColumnName = "vits_cod_pais")
 	private Country country;

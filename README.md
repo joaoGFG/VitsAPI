@@ -330,11 +330,11 @@ O projeto foi testado utilizando as seguintes abordagens:
 
 ### Coleção de Testes (Postman)
 
-
+**[Coleção Postman](https://cloudy-shadow-8140611.postman.co/workspace/My-Workspace~181a7838-1c82-4701-819f-ec9b6ab67aea/collection/45051985-d29b9f5f-5832-40d5-9c30-8768ab5d3b53?action=share&creator=45051985)**
 
 #### Endpoints (Swagger)
 
-![Endpoints](/documentation/image.png)
+![Endpoints](/documentation/swagger.png)
 
 ---
 

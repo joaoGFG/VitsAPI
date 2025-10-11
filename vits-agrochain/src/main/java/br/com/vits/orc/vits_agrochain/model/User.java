@@ -39,6 +39,7 @@ public class User {
     @Column(name = "vits_data_cadastro")
     private LocalDateTime registrationDate;    
     
+    @NotNull
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_tipo_usuario") 
     private UserType userType;

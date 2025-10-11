@@ -26,8 +26,8 @@ Uma plataforma integrada de rastreabilidade digital que conecta produtores, dist
 
 ### Integrantes e Responsabilidades
 
-| Nome | RM | Responsabilidades |
-|------|-----|-------------------|
+| Nome | Responsabilidades |
+|------|-------------------|
 | **Caio Lucas Silva Gomes** | Frontend (Next.js/React Native), Documentação, Design, Banco de Dados Oracle |
 | **João Gabriel Fuchs Grecco** | Backend (Spring Boot), API .NET, Oracle APEX, Banco de Dados Oracle |
 | **Madjer Henrique Almeida Finamor** | IoT, Cloud & DevOPS, QA |

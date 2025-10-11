@@ -199,7 +199,7 @@ GET /
 **Response:**
 ```json
 Status: 200 OK
-Body: "Helloasd asdsasadsa"
+Body: "Verdantis API is running"
 ```
 
 ---

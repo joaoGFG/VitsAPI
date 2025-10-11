@@ -122,6 +122,8 @@ Resposta esperada: `"Verdantis API is running"`
 
 ---
 
+## Credenciais do Banco de Dados para funcionamento presentes no PDF de documentação.
+
 ## 🏗️ Arquitetura e Diagramas
 
 ### Diagrama de Entidade-Relacionamento (DER) (De zoom para melhor visibilidade)

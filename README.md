@@ -392,76 +392,6 @@ Content-Type: application/json
 - `registrationDate`: Obrigatório (formato ISO-8601: YYYY-MM-DDTHH:mm:ss)
 - `userType.userTypeId`: Obrigatório, deve existir no banco de dados
 
-**Possíveis Erros:**
-
-```json
-Status: 404 NOT FOUND
-{
-  "message": "UserType não encontrado com o id: 999"
-}
-```
-
-```json
-Status: 400 BAD REQUEST
-{
-  "message": "Validation failed",
-  "errors": [
-    "userName: não deve estar em branco",
-    "registrationDate: deve ser uma data no passado ou presente"
-  ]
-}
-```
-
----
-
-### Modelos de Dados
-
-#### User (Usuário)
-```json
-{
-  "userId": "Long (gerado automaticamente)",
-  "userName": "String (obrigatório, max 200 caracteres)",
-  "registrationDate": "LocalDateTime (formato ISO-8601: YYYY-MM-DDTHH:mm:ss)",
-  "userType": "UserType (objeto)"
-}
-```
-
-#### UserType (Tipo de Usuário)
-```json
-{
-  "userTypeId": "Long",
-  "userDescription": "String (descrição do tipo, ex: Produtor Rural, Gestor, Comprador)"
-}
-```
-
-#### Country (País)
-```json
-{
-  "countryCode": "String (2 caracteres, ex: BR)",
-  "countryName": "String (max 70 caracteres)",
-  "states": "List<State>"
-}
-```
-
-#### State (Estado)
-```json
-{
-  "stateCode": "Long",
-  "stateName": "String (max 100 caracteres)",
-  "country": "Country",
-  "municipalities": "List<Municipality>"
-}
-```
-
-#### Municipality (Município)
-```json
-{
-  "municipalityCode": "Long",
-  "municipalityName": "String (max 200 caracteres)",
-  "state": "State"
-}
-```
-
 ---
 
 ## 🧪 Testes da Aplicação
@@ -470,11 +400,20 @@ Status: 400 BAD REQUEST
 
 O projeto foi testado utilizando as seguintes abordagens:
 
-1. **Testes Unitários**: Implementados com JUnit e Spring Boot Test
-2. **Testes de Integração**: Verificação da integração com Oracle Database
-3. **Testes de API**: Documentação e testes realizados via Postman/Insomnia
+**Testes de Integração**: Verificação da integração com Oracle Database
+**Testes de API**: Documentação e testes realizados via Postman
 
 ### Executando os Testes
+
+![Get Users](exemplo1.png)
+
+![GetByID Users](exemplo2.png)
+
+![Post Users](exemplo3.png)
+
+![Get User Types](exemplo4.png)
+
+![GetByID User Types](exemplo5.png)
 
 ### Coleção de Testes (Postman)
 

@@ -2,15 +2,12 @@ package br.com.vits.orc.vits_agrochain.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import br.com.vits.orc.vits_agrochain.model.UserType;
 import br.com.vits.orc.vits_agrochain.service.UserTypeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -19,8 +16,11 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "Tipos de Usuário", description = "Gerenciamento de tipos de usuário (Produtor, Gestor, Comprador)")
 public class UserTypeController {
 
-    @Autowired
-    private UserTypeService userTypeService;
+    private final UserTypeService userTypeService;
+
+    public UserTypeController(UserTypeService userTypeService) {
+        this.userTypeService = userTypeService;
+    }
 
     // POST futuramente apenas para Admins
 

@@ -2,7 +2,6 @@ package br.com.vits.orc.vits_agrochain.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +18,11 @@ import lombok.extern.slf4j.Slf4j;
 @Tag(name = "Usuários", description = "Gerenciamento de usuários do sistema Verdantis")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
     @Operation(summary = "Listar todos os usuários", description = "Retorna lista completa de usuários cadastrados")

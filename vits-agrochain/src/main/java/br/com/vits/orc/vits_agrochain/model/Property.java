@@ -6,8 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -43,7 +42,6 @@ public class Property {
     @Column(name = "vits_cep_prop")
     private String zipCode;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "vits_id_usuario")
     private User user;

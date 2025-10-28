@@ -427,8 +427,7 @@ O projeto foi testado utilizando as seguintes abordagens:
 
 #### Endpoints (Swagger)
 
-![Endpoints]<img width="1163" height="1079" alt="image" src="https://github.com/user-attachments/assets/45f751e1-e5b0-4baf-bd28-e5b85f66dde6" />
-
+![Endpoints]<img width="1651" height="604" alt="image" src="https://github.com/user-attachments/assets/a2d06088-e75e-40b0-bf3a-c705568bfc75" />
 
 ---
 

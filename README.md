@@ -407,6 +407,8 @@ O projeto foi testado utilizando as seguintes abordagens:
 
 ![Get Users](exemplo1.png)
 
+![alt text](image.png)
+
 ![GetByID Users](exemplo2.png)
 
 ![Post Users](exemplo3.png)

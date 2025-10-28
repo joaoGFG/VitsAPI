@@ -407,7 +407,7 @@ O projeto foi testado utilizando as seguintes abordagens:
 
 ![Get Users](exemplo1.png)
 
-![alt text](/image.png)
+<img width="766" height="308" alt="image" src="https://github.com/user-attachments/assets/1640bb7b-16ac-450a-a289-a4f59841a0f0" />
 
 ![GetByID Users](exemplo2.png)
 

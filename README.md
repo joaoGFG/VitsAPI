@@ -129,13 +129,11 @@ Resposta esperada: `"Verdantis API is running"`
 
 ### Diagrama de Entidade-Relacionamento (DER) (De zoom para melhor visibilidade)
 
-![DER](<img width="1969" height="816" alt="image" src="https://github.com/user-attachments/assets/366dd006-047f-4339-8cb8-7e0072e6b147" />
-)
+![DER]<img width="1969" height="816" alt="image" src="https://github.com/user-attachments/assets/366dd006-047f-4339-8cb8-7e0072e6b147" />
 
 ### Diagrama de Classes UML
 
-![Diagrama de Classes UML](<img width="1163" height="1079" alt="image" src="https://github.com/user-attachments/assets/bd8b0f6f-5241-48b3-a29e-e91d049d372d" />
-)
+![Diagrama de Classes UML]<img width="1163" height="1079" alt="image" src="https://github.com/user-attachments/assets/bd8b0f6f-5241-48b3-a29e-e91d049d372d" />
 
 ### Arquitetura da Solução
 
@@ -408,20 +406,20 @@ O projeto foi testado utilizando as seguintes abordagens:
 
 ### Executando os Testes
 
-![Get Users](<img width="1258" height="776" alt="image" src="https://github.com/user-attachments/assets/b80b4585-9646-4808-9ea2-bc25b07fbea8" />
-)
+![Get Users]<img width="1258" height="776" alt="image" src="https://github.com/user-attachments/assets/b80b4585-9646-4808-9ea2-bc25b07fbea8" />
 
-![GetByID Users](<img width="1263" height="695" alt="image" src="https://github.com/user-attachments/assets/392c332a-461f-4015-9955-9226708701a1" />
-)
 
-![Post Users](<img width="1278" height="754" alt="image" src="https://github.com/user-attachments/assets/b17a45d8-5741-41d6-8951-9f02af2324e8" />
-)
+![GetByID Users]<img width="1263" height="695" alt="image" src="https://github.com/user-attachments/assets/392c332a-461f-4015-9955-9226708701a1" />
 
-![Get User Types](<img width="1267" height="723" alt="image" src="https://github.com/user-attachments/assets/7ec65c96-5347-405f-98b3-6345c9330c79" />
-)
 
-![GetByID User Types](<img width="1267" height="658" alt="image" src="https://github.com/user-attachments/assets/dfea3448-7c17-4b3e-bf3b-5ccd347a4636" />
-)
+![Post Users]<img width="1278" height="754" alt="image" src="https://github.com/user-attachments/assets/b17a45d8-5741-41d6-8951-9f02af2324e8" />
+
+
+![Get User Types]<img width="1267" height="723" alt="image" src="https://github.com/user-attachments/assets/7ec65c96-5347-405f-98b3-6345c9330c79" />
+
+
+![GetByID User Types]<img width="1267" height="658" alt="image" src="https://github.com/user-attachments/assets/dfea3448-7c17-4b3e-bf3b-5ccd347a4636" />
+
 
 ### Coleção de Testes (Postman)
 
@@ -429,8 +427,8 @@ O projeto foi testado utilizando as seguintes abordagens:
 
 #### Endpoints (Swagger)
 
-![Endpoints](<img width="1163" height="1079" alt="image" src="https://github.com/user-attachments/assets/45f751e1-e5b0-4baf-bd28-e5b85f66dde6" />
-)
+![Endpoints]<img width="1163" height="1079" alt="image" src="https://github.com/user-attachments/assets/45f751e1-e5b0-4baf-bd28-e5b85f66dde6" />
+
 
 ---
 

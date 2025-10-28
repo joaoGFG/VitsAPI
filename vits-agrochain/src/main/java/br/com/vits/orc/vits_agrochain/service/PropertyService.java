@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import br.com.vits.orc.vits_agrochain.model.Property;
 import br.com.vits.orc.vits_agrochain.model.User;
 import br.com.vits.orc.vits_agrochain.repository.PropertyRepository;
+import java.util.List;
 
 @Service
 public class PropertyService {
@@ -21,5 +22,13 @@ public class PropertyService {
         User user = userService.getUserById(userId);
         property.setUser(user);
         return propertyRepository.save(property);
+    }
+
+    public List<Property> listAll() {
+        return propertyRepository.findAll();
+    }
+
+    public Property getPropertyById(Long id) {
+        return propertyRepository.findById(id).orElse(null);
     }
 }

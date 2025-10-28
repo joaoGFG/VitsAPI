@@ -41,8 +41,8 @@ public class UserController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Criar novo usuário", description = "Cria um novo usuário no sistema (produtor, gestor ou comprador)")
-    public User create(@RequestBody @Valid User user) {
+    public User createUser(@RequestBody @Valid User user) {
         log.info("Criando usuário: {}", user);
-        return userService.create(user);
+        return userService.createUser(user);
     }
 }

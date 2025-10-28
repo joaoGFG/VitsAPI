@@ -22,7 +22,7 @@ public class UserService {
         this.userTypeService = userTypeService;
     }
 
-    public User create(User user) {
+    public User createUser(User user) {
         Long userTypeId = user.getUserType().getUserTypeId();
         
         UserType userType = userTypeService.getUserTypeById(userTypeId);

@@ -42,8 +42,8 @@ Optamos por **entidade JPA** para permitir:
 - Normalização e integridade referencial
 - Conselho do professor de Banco de Dados
 
-![Tipos de Usuário Disponíveis](<img width="458" height="216" alt="image" src="https://github.com/user-attachments/assets/6252f2b3-44c6-4890-88e9-79b6eed0ac5b" />
-)
+![Tipos de Usuário Disponíveis]<img width="458" height="216" alt="image" src="https://github.com/user-attachments/assets/627515bf-f036-4a91-9ce8-0650143737f6" />
+
 
 ## 👥 Equipe GreenCore
 

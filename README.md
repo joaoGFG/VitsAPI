@@ -124,19 +124,6 @@ Expansão significativa das entidades do sistema:
 - ✅ Método `toEntityModel()` nas entidades para centralizar criação de links
 - ✅ Uso de `PagedResourcesAssembler` para paginação automática
 
-#### 📊 **5. Novos Endpoints da Sprint 2**
-
-| Endpoint | Método | HATEOAS | Descrição |
-|----------|--------|---------|-----------|
-| `/properties` | GET | ✅ | Lista paginada de propriedades com links |
-| `/properties/{id}` | GET | ✅ | Busca propriedade por ID com link self |
-| `/properties/all` | GET | ❌ | Lista todas sem paginação (compatibilidade) |
-| `/properties` | POST | ❌ | Cria nova propriedade |
-| `/lots` | GET | ✅ | Lista paginada de lotes com links |
-| `/lots/{id}` | GET | ✅ | Busca lote por ID com link self |
-| `/lots/all` | GET | ❌ | Lista todos sem paginação |
-| `/lots` | POST | ❌ | Cria novo lote |
-
 #### 🧪 **7. Documentação e Testes**
 
 **Melhorias na Documentação:**
@@ -146,8 +133,7 @@ Expansão significativa das entidades do sistema:
 - ✅ Swagger UI integrado com HATEOAS
 
 **Arquivo de Testes:**
-- ✅ `Postman_Collection_HATEOAS_Properties.json` em `/documentation`
-
+- ✅ Coleção do postman no Readme
 ---
 
 ## ⚠️ Tipos de Usuário

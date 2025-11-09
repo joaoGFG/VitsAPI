@@ -1,7 +1,12 @@
 package br.com.vits.orc.vits_agrochain.model;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 import java.time.LocalDate;
 
+import org.springframework.hateoas.EntityModel;
+
+import br.com.vits.orc.vits_agrochain.controller.LotController;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -55,4 +60,10 @@ public class Lot {
     @ManyToOne
     @JoinColumn(name = "vits_id_cultura")
     private Culture culture;
+
+    public EntityModel<Lot> toEntityModel() {
+        return EntityModel.of(this)
+                .add(linkTo(methodOn(LotController.class)
+                        .getById(this.lotId)).withSelfRel());
+    }
 }

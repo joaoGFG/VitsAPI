@@ -1,7 +1,12 @@
 package br.com.vits.orc.vits_agrochain.model;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
 import java.time.LocalDateTime;
 
+import org.springframework.hateoas.EntityModel;
+
+import br.com.vits.orc.vits_agrochain.controller.UserController;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -42,4 +47,10 @@ public class User {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_tipo_usuario") 
     private UserType userType;
+
+    public EntityModel<User> toEntityModel() {
+        return EntityModel.of(this)
+                .add(linkTo(methodOn(UserController.class)
+                        .getById(this.userId)).withSelfRel());
+    }
 }

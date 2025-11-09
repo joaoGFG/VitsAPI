@@ -107,12 +107,10 @@ Expansão significativa das entidades do sistema:
 **Entidades Adicionadas:**
 - ✅ `Property` (Propriedade Rural) - Gestão de propriedades agrícolas
 - ✅ `Lot` (Lote) - Rastreabilidade de lotes de produção
-- ✅ `Culture` (Cultura) - Tipos de cultivo agrícola
 
 **Controllers com CRUD Completo:**
 - ✅ `PropertyController` - CRUD de propriedades com HATEOAS
 - ✅ `LotController` - Gestão de lotes de produção
-- ✅ `CultureController` - Administração de culturas
 
 #### 🔧 **4. Melhorias Técnicas**
 
@@ -134,10 +132,10 @@ Expansão significativa das entidades do sistema:
 | `/properties/{id}` | GET | ✅ | Busca propriedade por ID com link self |
 | `/properties/all` | GET | ❌ | Lista todas sem paginação (compatibilidade) |
 | `/properties` | POST | ❌ | Cria nova propriedade |
-| `/lots` | GET | 🔄 | Lista lotes (HATEOAS em desenvolvimento) |
-| `/lots/{id}` | GET | 🔄 | Busca lote por ID |
-| `/cultures` | GET | 🔄 | Lista culturas |
-| `/cultures/{id}` | GET | 🔄 | Busca cultura por ID |
+| `/lots` | GET | ✅ | Lista paginada de lotes com links |
+| `/lots/{id}` | GET | ✅ | Busca lote por ID com link self |
+| `/lots/all` | GET | ❌ | Lista todos sem paginação |
+| `/lots` | POST | ❌ | Cria novo lote |
 
 #### 🧪 **7. Documentação e Testes**
 

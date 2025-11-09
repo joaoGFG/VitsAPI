@@ -1,5 +1,9 @@
 package br.com.vits.orc.vits_agrochain.model;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+import org.springframework.hateoas.EntityModel;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -40,4 +44,5 @@ public class Culture {
     @ManyToOne
     @JoinColumn(name = "vits_id_categ_cultivo")
     private CultureCategory cultureCategory;
+
 }

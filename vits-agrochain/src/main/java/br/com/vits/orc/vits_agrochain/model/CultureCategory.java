@@ -28,6 +28,6 @@ public class CultureCategory {
 
     @NotBlank
     @Size(max = 50)
-    @Column(name = "vits_descrição_cultivo")
+    @Column(name = "vits_descricao_cultivo")
     private String description;
 }

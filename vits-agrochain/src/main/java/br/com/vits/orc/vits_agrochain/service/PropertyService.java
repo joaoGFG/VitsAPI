@@ -1,5 +1,7 @@
 package br.com.vits.orc.vits_agrochain.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.vits.orc.vits_agrochain.model.Property;
@@ -26,6 +28,10 @@ public class PropertyService {
 
     public List<Property> listAll() {
         return propertyRepository.findAll();
+    }
+
+    public Page<Property> listAllPaginated(Pageable pageable) {
+        return propertyRepository.findAll(pageable);
     }
 
     public Property getPropertyById(Long id) {

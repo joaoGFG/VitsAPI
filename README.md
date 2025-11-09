@@ -1,9 +1,10 @@
 # Verdantis (VITS - Visual Information Tracking System)
 
 ![Java](https://img.shields.io/badge/Java-17-orange?style=flat-square&logo=java)
-![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.5.6-brightgreen?style=flat-square&logo=springboot)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3.5-brightgreen?style=flat-square&logo=springboot)
 ![Oracle](https://img.shields.io/badge/Oracle-Database-red?style=flat-square&logo=oracle)
-![Status](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow?style=flat-square)
+![HATEOAS](https://img.shields.io/badge/REST-Level%203%20HATEOAS-blue?style=flat-square)
+![Status](https://img.shields.io/badge/Status-Sprint%202-yellow?style=flat-square)
 
 ## 📋 Sobre o Projeto
 
@@ -23,6 +24,131 @@ Uma plataforma integrada de rastreabilidade digital que conecta produtores, dist
 ---
 
 ### PDF da documentação completa em /documentation
+
+---
+
+## 🆕 Evolução Sprint 1 → Sprint 2
+
+### **Principais Acréscimos da Sprint 2**
+
+#### 🔗 **1. HATEOAS - Nível 3 de Maturidade REST (Richardson)**
+
+A principal evolução da Sprint 2 foi a implementação de **HATEOAS** (Hypermedia as the Engine of Application State), elevando a API para o **Nível 3 de Maturidade REST** proposto por Leonard Richardson.
+
+**O que mudou:**
+
+- ✅ **PropertyController** agora retorna `EntityModel` e `PagedModel` com links hipermídia
+- ✅ Endpoints com paginação incluem links de navegação (`first`, `self`, `next`, `last`)
+- ✅ Cada recurso possui link `self` apontando para sua própria URL
+- ✅ Cliente pode navegar pela API sem conhecer previamente a estrutura das URLs
+
+**Antes (Sprint 1 - Nível 2):**
+```json
+{
+  "propertyId": 1,
+  "propertyName": "Fazenda São José",
+  "totalArea": "150 hectares"
+}
+```
+
+**Depois (Sprint 2 - Nível 3 com HATEOAS):**
+```json
+{
+  "propertyId": 1,
+  "propertyName": "Fazenda São José",
+  "totalArea": "150 hectares",
+  "_links": {
+    "self": {
+      "href": "http://localhost:8080/properties/1"
+    }
+  }
+}
+```
+
+#### 📄 **2. Paginação Avançada**
+
+Implementação de paginação completa com Spring Data:
+
+- ✅ Suporte a parâmetros `page`, `size` e `sort`
+- ✅ Metadados de paginação (total de elementos, páginas, página atual)
+- ✅ Links de navegação entre páginas
+- ✅ Ordenação customizável por qualquer campo
+
+**Exemplo de uso:**
+```http
+GET /properties?page=0&size=10&sort=propertyName,asc
+```
+
+**Response com paginação:**
+```json
+{
+  "_embedded": {
+    "propertyList": [ /* ... */ ]
+  },
+  "_links": {
+    "first": { "href": "..." },
+    "self": { "href": "..." },
+    "next": { "href": "..." },
+    "last": { "href": "..." }
+  },
+  "page": {
+    "size": 10,
+    "totalElements": 25,
+    "totalPages": 3,
+    "number": 0
+  }
+}
+```
+
+#### 🏗️ **3. Novos Domínios Implementados**
+
+Expansão significativa das entidades do sistema:
+
+**Entidades Adicionadas:**
+- ✅ `Property` (Propriedade Rural) - Gestão de propriedades agrícolas
+- ✅ `Lot` (Lote) - Rastreabilidade de lotes de produção
+- ✅ `Culture` (Cultura) - Tipos de cultivo agrícola
+
+**Controllers com CRUD Completo:**
+- ✅ `PropertyController` - CRUD de propriedades com HATEOAS
+- ✅ `LotController` - Gestão de lotes de produção
+- ✅ `CultureController` - Administração de culturas
+
+#### 🔧 **4. Melhorias Técnicas**
+
+**Dependências Atualizadas:**
+- ✅ **Spring Boot** atualizado para `3.3.5` (estabilidade)
+- ✅ **Spring HATEOAS** adicionado para suporte hipermídia
+- ✅ **SpringDoc OpenAPI** mantido para documentação Swagger
+
+**Arquitetura:**
+- ✅ Padrão **EntityModel/PagedModel** para responses HATEOAS
+- ✅ Método `toEntityModel()` nas entidades para centralizar criação de links
+- ✅ Uso de `PagedResourcesAssembler` para paginação automática
+
+#### 📊 **5. Novos Endpoints da Sprint 2**
+
+| Endpoint | Método | HATEOAS | Descrição |
+|----------|--------|---------|-----------|
+| `/properties` | GET | ✅ | Lista paginada de propriedades com links |
+| `/properties/{id}` | GET | ✅ | Busca propriedade por ID com link self |
+| `/properties/all` | GET | ❌ | Lista todas sem paginação (compatibilidade) |
+| `/properties` | POST | ❌ | Cria nova propriedade |
+| `/lots` | GET | 🔄 | Lista lotes (HATEOAS em desenvolvimento) |
+| `/lots/{id}` | GET | 🔄 | Busca lote por ID |
+| `/cultures` | GET | 🔄 | Lista culturas |
+| `/cultures/{id}` | GET | 🔄 | Busca cultura por ID |
+
+#### 🧪 **7. Documentação e Testes**
+
+**Melhorias na Documentação:**
+- ✅ Coleção Postman atualizada com testes HATEOAS
+- ✅ Exemplos de paginação e ordenação
+- ✅ Documentação de responses com links hipermídia
+- ✅ Swagger UI integrado com HATEOAS
+
+**Arquivo de Testes:**
+- ✅ `Postman_Collection_HATEOAS_Properties.json` em `/documentation`
 
 ---
 
@@ -435,12 +561,14 @@ O projeto foi testado utilizando as seguintes abordagens:
 
 | Categoria | Tecnologia | Função |
 |-----------|------------|--------|
-| **Backend** | Java | Linguagem de programação |
-| **Framework** | Spring Boot | Framework para API REST |
+| **Backend** | Java 17 | Linguagem de programação |
+| **Framework** | Spring Boot 3.3.5 | Framework para API REST |
 | **Persistência** | Spring Data JPA | Camada de acesso a dados |
 | **Banco de Dados** | Oracle Database | Armazenamento principal |
 | **Driver JDBC** | ojdbc11 | Conexão com Oracle |
 | **Validação** | Hibernate Validator | Validação de dados |
+| **Hipermídia** | Spring HATEOAS | Links HATEOAS (Nível 3 REST) ⭐ **NOVO Sprint 2** |
+| **Documentação** | SpringDoc OpenAPI | Swagger UI e documentação API |
 | **Build** | Maven | Gerenciamento de dependências |
 | **Utilitários** | Lombok | Redução de boilerplate code |
 | **Logging** | SLF4J | Sistema de logs |

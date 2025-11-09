@@ -1,5 +1,10 @@
 package br.com.vits.orc.vits_agrochain.model;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+import org.springframework.hateoas.EntityModel;
+
+import br.com.vits.orc.vits_agrochain.controller.PropertyController;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -44,4 +49,10 @@ public class Property {
     @ManyToOne
     @JoinColumn(name = "vits_id_usuario")
     private User user;
+
+    public EntityModel<Property> toEntityModel() {
+        return EntityModel.of(this)
+                .add(linkTo(methodOn(PropertyController.class)
+                        .getById(this.propertyId)).withSelfRel());
+    }
 }

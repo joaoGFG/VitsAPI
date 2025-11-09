@@ -1,5 +1,12 @@
 package br.com.vits.orc.vits_agrochain.controller;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.PagedModel;
 
 import br.com.vits.orc.vits_agrochain.model.Property;
 import br.com.vits.orc.vits_agrochain.service.PropertyService;
@@ -7,7 +14,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-
 
 import java.util.List;
 
@@ -33,6 +39,22 @@ public class PropertyController {
         this.propertyService = propertyService;
     }
 
+    @GetMapping
+    @Operation(summary = "Listar todas as propriedades com paginação", description = "Retorna lista paginada de propriedades com links HATEOAS")
+    public PagedModel<EntityModel<Property>> getAll(
+            @PageableDefault(size = 10, sort = "propertyName") Pageable pageable, 
+            PagedResourcesAssembler<Property> assembler) {
+        log.info("Listando propriedades paginadas - página: {}, tamanho: {}", pageable.getPageNumber(), pageable.getPageSize());
+        var page = propertyService.listAllPaginated(pageable);
+        return assembler.toModel(page, Property::toEntityModel);
+    }
+
+    @GetMapping("/all")
+    @Operation(summary = "Listar todas as propriedades sem paginação", description = "Retorna lista completa de propriedades")
+    public List<Property> listAll(){
+        log.info("Listando todas as propriedades");
+        return propertyService.listAll();
+    }
     
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -42,15 +64,11 @@ public class PropertyController {
         return propertyService.createProperty(property, userId);
     }
 
-    @GetMapping
-    public List<Property> listAll(){
-        log.info("Listando todas as propriedades");
-        return propertyService.listAll();
-    }
-
     @GetMapping("/{id}")
-    public Property getById(@PathVariable Long id){
+    @Operation(summary = "Buscar propriedade por ID", description = "Retorna uma propriedade específica com links HATEOAS")
+    public EntityModel<Property> getById(@PathVariable Long id) {
         log.info("Buscando propriedade com id: {}", id);
-        return propertyService.getPropertyById(id);
+        var property = propertyService.getPropertyById(id);
+        return property.toEntityModel();
     }
 }

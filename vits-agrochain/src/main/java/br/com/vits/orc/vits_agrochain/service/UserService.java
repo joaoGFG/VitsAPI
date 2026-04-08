@@ -1,10 +1,15 @@
 package br.com.vits.orc.vits_agrochain.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -13,24 +18,60 @@ import br.com.vits.orc.vits_agrochain.model.UserType;
 import br.com.vits.orc.vits_agrochain.repository.UserRepository;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     
     private final UserRepository userRepository;
     
     private final UserTypeService userTypeService;
+    
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserTypeService userTypeService) {
+    public UserService(UserRepository userRepository, UserTypeService userTypeService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userTypeService = userTypeService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User createUser(User user) {
-        Long userTypeId = user.getUserType().getUserTypeId();
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRegistrationDate(LocalDateTime.now());
         
-        UserType userType = userTypeService.getUserTypeById(userTypeId);
+        if (user.getUserType() == null) {
+            UserType defaultUserType = userTypeService.getUserTypeByDescription("PRODUTOR");
+            user.setUserType(defaultUserType);
+        }
 
+        return userRepository.save(user);
+    }
+
+    public User createUser(String name, String email, String password) {
+        User user = new User();
+        user.setName(name);
+        user.setEmail(email);
+        user.setPassword(passwordEncoder.encode(password));
+        user.setRegistrationDate(LocalDateTime.now());
+        
+        // Busca UserType PRODUTOR, caso não exista, utiliza o primeiro disponível
+        UserType userType = null;
+        try {
+            userType = userTypeService.getUserTypeByDescription("PRODUTOR");
+        } catch (Exception e) {
+            // Se PRODUTOR não existir, busca qualquer UserType
+            List<UserType> allUserTypes = userTypeService.listAll();
+            if (!allUserTypes.isEmpty()) {
+                userType = allUserTypes.get(0);
+            }
+        }
+        
+        // Se ainda assim não encontrou nenhum UserType, lance exceção
+        if (userType == null) {
+            throw new ResponseStatusException(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                "Nenhum UserType disponível no sistema"
+            );
+        }
+        
         user.setUserType(userType);
-
         return userRepository.save(user);
     }
 
@@ -49,6 +90,12 @@ public class UserService {
                     HttpStatus.NOT_FOUND, 
                     "Usuário não encontrado com o id: " + id
                 ));
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado com email: " + email));
     }
 
 }

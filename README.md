@@ -19,6 +19,286 @@ O **Verdantis** é um sistema de rastreabilidade e visualização inteligente de
 
 ### 💡 Solução
 
+Sistema de rastreabilidade agrícola com autenticação JWT, Flyway para versionamento de banco de dados e interface web.
+
+## 📋 Funcionalidades
+
+- ✅ **Autenticação JWT** com Spring Security (RSA)
+- ✅ **Controle de Acesso** baseado em ROLE_PRODUTOR
+- ✅ **Flyway** para versionamento do banco Oracle
+- ✅ **Frontend HTML/CSS/JS** responsivo
+- ✅ **API REST** para gerenciamento de:
+  - Lotes
+  - Propriedades
+  - Certificações
+  - Culturas
+  - Usuários
+
+## 🚀 Instalação e Execução
+
+### Pré-requisitos
+
+- Java 17+
+- Maven 3.8+
+- Oracle Database 11g+
+
+### Passo 1: Clonar o repositório
+
+```bash
+git clone https://github.com/joaoGFG/VitsAPI.git
+cd vits-agrochain
+```
+
+### Passo 2: Configurar o banco de dados
+
+Editar `src/main/resources/application.properties`:
+
+```properties
+spring.datasource.url=jdbc:oracle:thin:@//seu-host:1521/ORCL
+spring.datasource.username=seu_usuario
+spring.datasource.password=sua_senha
+```
+
+### Passo 3: Executar a aplicação
+
+```bash
+mvn spring-boot:run
+```
+
+Ou compilar e executar:
+
+```bash
+mvn clean install
+java -jar target/vits-agrochain-0.0.1-SNAPSHOT.jar
+```
+
+A aplicação estará disponível em: `http://localhost:8080`
+
+## 🔐 Autenticação
+
+### Endpoint de Login
+
+**POST** `/login`
+
+Request:
+```json
+{
+  "email": "produtor@email.com",
+  "password": "senha123"
+}
+```
+
+Response:
+```json
+{
+  "token": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "id": 1,
+  "name": "João Silva",
+  "email": "produtor@email.com",
+  "role": "ROLE_PRODUTOR"
+}
+```
+
+## 📊 Endpoints da API
+
+### Usuários
+- `GET /api/users` - Listar usuários (requer ROLE_PRODUTOR)
+- `GET /api/users/{id}` - Obter usuário (requer ROLE_PRODUTOR)
+
+### Lotes
+- `GET /api/lotes` - Listar lotes
+- `POST /api/lotes` - Criar lote
+- `GET /api/lotes/{id}` - Obter lote
+- `PUT /api/lotes/{id}` - Atualizar lote
+- `DELETE /api/lotes/{id}` - Deletar lote
+
+### Propriedades
+- `GET /api/propriedades` - Listar propriedades
+- `POST /api/propriedades` - Criar propriedade
+- `GET /api/propriedades/{id}` - Obter propriedade
+- `PUT /api/propriedades/{id}` - Atualizar propriedade
+- `DELETE /api/propriedades/{id}` - Deletar propriedade
+
+### Certificações
+- `GET /api/certificacoes` - Listar certificações
+- `POST /api/certificacoes` - Criar certificação
+- `GET /api/certificacoes/{id}` - Obter certificação
+
+### Culturas
+- `GET /api/culturas` - Listar culturas
+- `POST /api/culturas` - Criar cultura
+
+## �️ Flyway - Versionamento do Banco
+
+O Flyway gerencia automaticamente as migrações do banco de dados. As migrations estão em:
+
+```
+src/main/resources/db/migration/
+```
+
+### Estrutura de migrations
+
+- `V1__initial_schema.sql` - Criação inicial das tabelas
+
+### Como adicionar uma nova migration
+
+1. Criar novo arquivo em `db/migration/`
+2. Seguir padrão: `V{numero}__{descricao}.sql`
+3. Exemplo: `V2__add_new_table.sql`
+
+O Flyway executa **automaticamente** na inicialização da aplicação.
+
+### Comandos Flyway (via Maven)
+
+```bash
+# Executar migrations
+mvn flyway:migrate
+
+```
+
+## 🎨 Frontend
+
+O frontend está em `src/main/resources/static/`
+
+### Páginas
+
+- **Home** - Página inicial com informações
+- **Login** - Autenticação de usuários
+- **Register** - Registro de novos usuários
+- **Dashboard** - Painel de controle (requer autenticação)
+- **Lotes** - Gerenciamento de lotes
+- **Propriedades** - Gerenciamento de propriedades
+- **Certificações** - Visualização de certificações
+- **Culturas** - Gerenciamento de culturas
+
+### Acessando o Frontend
+
+Após iniciar a aplicação, acesse: `http://localhost:8080`
+
+### Tecnologias Frontend
+
+- HTML5
+- CSS3 (Responsivo)
+- JavaScript vanilla (sem frameworks)
+- Fetch API para comunicação
+
+## 🔑 Segurança
+
+### JWT (JSON Web Token)
+
+- **Algoritmo**: RS256 (RSA)
+- **Chaves**: `src/main/resources/certs/`
+  - `private_key.pem` - Chave privada (assinar tokens)
+  - `public_key.pem` - Chave pública (validar tokens)
+- **Expiração**: 24 horas
+
+### Spring Security
+
+- CSRF desabilitado (API REST)
+- CORS habilitado para localhost
+- Sessões stateless
+- Role-based access control (RBAC)
+
+### CORS
+
+Configurado para aceitar requisições de `*` (desenvolvimento). 
+**Mudar em produção** em `SecurityConfig.java`
+
+## 📦 Estrutura do Projeto
+
+```
+vits-agrochain/
+├── src/
+│   ├── main/
+│   │   ├── java/br/com/vits/orc/vits_agrochain/
+│   │   │   ├── config/          # Configurações (Security, RSA)
+│   │   │   ├── controller/      # Controllers REST
+│   │   │   ├── model/           # Entidades JPA
+│   │   │   ├── repository/      # Repositórios
+│   │   │   ├── service/         # Lógica de negócio
+│   │   │   └── dto/             # Data Transfer Objects
+│   │   └── resources/
+│   │       ├── application.properties
+│   │       ├── static/          # Frontend (HTML/CSS/JS)
+│   │       ├── db/migration/    # Flyway migrations
+│   │       └── certs/           # Chaves RSA
+│   └── test/
+├── pom.xml
+└── README.md
+```
+
+## 🛠️ Tecnologias
+
+- **Framework**: Spring Boot 3.3.5
+- **Linguagem**: Java 17
+- **ORM**: JPA/Hibernate
+- **Banco de Dados**: Oracle
+- **Autenticação**: Spring Security + JWT (RSA)
+- **Validação**: Jakarta Validation
+- **Versioning DB**: Flyway
+- **Documentação API**: Springdoc OpenAPI (Swagger)
+
+## 📖 Swagger/OpenAPI
+
+A documentação interativa da API está disponível em:
+
+```
+http://localhost:8080/swagger-ui.html
+```
+
+## 🐛 Troubleshooting
+
+### Erro de conexão com Oracle
+
+Verifique:
+- URL de conexão está correta
+- Credenciais estão corretas
+- Oracle está rodando
+- Porta 1521 está aberta
+
+### Erro ao executar Flyway
+
+```bash
+# Verificar se tabelas estão criadas manualmente
+# Se sim, executar baseline:
+mvn flyway:baseline
+```
+
+### Erro 401 (Não Autorizado)
+
+- Verifique se o token JWT foi passado no header `Authorization`
+- Verifique se o token não expirou
+- Verifique se o token é válido
+
+## 👤 Padrão de Usuário
+
+Ao registrar, todo novo usuário recebe automaticamente `ROLE_PRODUTOR`.
+
+Exemplos de acesso:
+- ✅ Produtores podem acessar `/api/**`
+- ❌ Usuários não autenticados recebem 401
+- ❌ Usuários com role diferente recebem 403
+
+## 🔄 Fluxo de Login
+
+1. Usuário faz POST em `/login` com email e senha
+2. Spring Security autentica as credenciais
+3. TokenService gera JWT com claims (id, email, role)
+4. Token é armazenado localmente no browser
+5. Requisições futuras incluem `Authorization: Bearer {token}`
+6. SecurityConfig valida o token via JWT decoder
+
+## 🚢 Deploy
+
+### Produção
+
+1. Mudar `CORS` em `SecurityConfig.java`
+2. Gerar novo keystore RSA
+3. Usar variáveis de ambiente para credenciais
+4. Habilitar HTTPS
+5. Configurar banco de produção
+
+
 Uma plataforma integrada de rastreabilidade digital que conecta produtores, distribuidores e compradores, permitindo registro, visualização e certificação de cadeias produtivas agrícolas.
 
 ---

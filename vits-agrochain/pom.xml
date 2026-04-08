@@ -86,6 +86,26 @@
 			<artifactId>spring-boot-starter-hateoas</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-database-oracle</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -113,6 +133,30 @@
 						</exclude>
 					</excludes>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>10.10.0</version>
+				<configuration>
+					<driver>oracle.jdbc.driver.OracleDriver</driver>
+					<url>jdbc:oracle:thin:@//oracle.fiap.com.br:1521/ORCL</url>
+					<user>rm559863</user>
+					<password>110306</password>
+					<baselineOnMigrate>true</baselineOnMigrate>
+					<baselineVersion>1</baselineVersion>
+					<locations>
+						<location>classpath:db/migration</location>
+					</locations>
+					<createSchemas>false</createSchemas>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>com.oracle.database.jdbc</groupId>
+						<artifactId>ojdbc11</artifactId>
+						<version>23.2.0.0</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 		</plugins>
 	</build>

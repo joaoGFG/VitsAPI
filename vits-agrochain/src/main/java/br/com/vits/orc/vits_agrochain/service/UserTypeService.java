@@ -31,4 +31,13 @@ public class UserTypeService {
                 ));
     }
 
+    public UserType getUserTypeByDescription(String description) {
+        return userTypeRepository
+                .findByUserDescription(description)
+                .orElseThrow(() -> new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, 
+                    "UserType não encontrado com a descrição: " + description
+                ));
+    }
+
 }

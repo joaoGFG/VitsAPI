@@ -23,40 +23,74 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "VITS_ORC_EVENTO_CULTIVO")
+@Table(name = "EVENTOS_CULTIVO")
 public class CultivationEvent {
 
     @Id
     @GeneratedValue(
-        strategy = GenerationType.SEQUENCE,
-        generator = "evento_cultivo_seq_gen"
+        strategy = GenerationType.IDENTITY
     )
-    @SequenceGenerator(
-        name = "evento_cultivo_seq_gen",
-        sequenceName = "SEQ_EVENTO_CULTIVO",
-        allocationSize = 1
-    )
-    @Column(name = "vits_id_evento")
+    @Column(name = "id")
     private Long id;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "vits_id_lote")
-    private Lot lot;
+    @JoinColumn(name = "lote_id")
+    private Lot lote;
 
     @NotNull
-    @Column(name = "vits_data_plantio")
-    private LocalDate plantingDate;
+    @Column(name = "data_plantio")
+    private LocalDate dataPlantio;
 
-    @NotNull
-    @Column(name = "vits_data_colheita_est")
-    private LocalDate estimatedHarvestDate;
+    @Column(name = "data_colheita_estimada")
+    private LocalDate dataColheitaEstimada;
 
     @NotBlank
-    @Column(name = "vits_tipo_evento")
-    private String eventType;
+    @Column(name = "tipo_evento")
+    private String tipoEvento;
 
-    @Column(name = "vits_descricao_evento")
-    private String description;
+    @Column(name = "descricao")
+    private String descricao;
+
+    // Compatibility accessors for older code paths
+    public Lot getLot() {
+        return this.lote;
+    }
+
+    public void setLot(Lot lot) {
+        this.lote = lot;
+    }
+
+    public String getEventType() {
+        return this.tipoEvento;
+    }
+
+    public void setEventType(String eventType) {
+        this.tipoEvento = eventType;
+    }
+
+    public LocalDate getPlantingDate() {
+        return this.dataPlantio;
+    }
+
+    public void setPlantingDate(LocalDate plantingDate) {
+        this.dataPlantio = plantingDate;
+    }
+
+    public LocalDate getEstimatedHarvestDate() {
+        return this.dataColheitaEstimada;
+    }
+
+    public void setEstimatedHarvestDate(LocalDate estimatedHarvestDate) {
+        this.dataColheitaEstimada = estimatedHarvestDate;
+    }
+
+    public String getDescription() {
+        return this.descricao;
+    }
+
+    public void setDescription(String description) {
+        this.descricao = description;
+    }
 
 }

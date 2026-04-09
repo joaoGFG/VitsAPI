@@ -13,33 +13,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.vits.orc.vits_agrochain.model.User;
-import br.com.vits.orc.vits_agrochain.model.UserType;
 import br.com.vits.orc.vits_agrochain.repository.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService {
     
     private final UserRepository userRepository;
-    
-    private final UserTypeService userTypeService;
-    
     private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, UserTypeService userTypeService, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.userTypeService = userTypeService;
         this.passwordEncoder = passwordEncoder;
     }
 
     public User createUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRegistrationDate(LocalDateTime.now());
-        
-        if (user.getUserType() == null) {
-            UserType defaultUserType = userTypeService.getUserTypeByDescription("PRODUTOR");
-            user.setUserType(defaultUserType);
-        }
-
+        // No roles/user types for now; keep userType null
         return userRepository.save(user);
     }
 

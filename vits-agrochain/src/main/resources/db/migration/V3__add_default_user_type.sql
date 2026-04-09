@@ -1,4 +1,3 @@
--- Adiciona valor padrão para ID_TIPO_USUARIO
-ALTER TABLE VITS_ORC_USUARIO MODIFY ID_TIPO_USUARIO DEFAULT 1;
-
-COMMIT;
+-- V3__add_default_user_type.sql
+-- No-op: default user type handled differently in the new initial migration (V1)
+-- This file is intentionally left as a no-op to preserve Flyway history.

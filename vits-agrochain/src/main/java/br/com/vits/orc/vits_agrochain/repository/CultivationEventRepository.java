@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface CultivationEventRepository extends JpaRepository<CultivationEvent, Long> {
-    List<CultivationEvent> findByLotLotIdOrderByPlantingDateAsc(Long lotId);
+    List<CultivationEvent> findByLoteIdOrderByDataPlantioAsc(Long lotId);
 }

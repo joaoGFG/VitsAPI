@@ -32,7 +32,7 @@ public class UserController {
     @GetMapping
     @Operation(summary = "Listar todos os usuários com paginação", description = "Retorna lista paginada de usuários com links HATEOAS")
     public PagedModel<EntityModel<User>> getAll(
-            @PageableDefault(size = 10, sort = "userName") Pageable pageable,
+            @PageableDefault(size = 10, sort = "name") Pageable pageable,
             PagedResourcesAssembler<User> assembler) {
         log.info("Listando usuários paginados - página: {}, tamanho: {}", pageable.getPageNumber(), pageable.getPageSize());
         var page = userService.listAllPaginated(pageable);

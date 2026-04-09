@@ -44,6 +44,10 @@ public class User implements UserDetails {
     @Column(name = "vits_nome_usuario")
     private String name;
 
+    @Size(max = 14)
+    @Column(name = "vits_cpf_usuario", unique = true)
+    private String cpf;
+
     @NotBlank
     @Column(name = "vits_email_usuario")
     private String email;

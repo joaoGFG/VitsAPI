@@ -43,7 +43,7 @@ public class UserController {
     @Operation(summary = "Listar todos os usuários sem paginação", description = "Retorna lista completa de usuários")
     public List<User> listAll() {
         log.info("Listando todos os usuários");
-        return userService.listAll();
+        return userService.listAllPaginated(Pageable.unpaged()).getContent();
     }
 
     @GetMapping("/{id}")

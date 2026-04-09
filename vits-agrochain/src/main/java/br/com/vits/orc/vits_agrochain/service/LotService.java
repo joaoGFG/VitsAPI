@@ -28,7 +28,11 @@ public class LotService {
         return lotRepository.findAll(pageable);
     }
 
-    public Lot getLotById(Long id) {
-        return lotRepository.findById(id).orElse(null);
+    public Lot findById(Long id) {
+        return lotRepository.findById(id).orElseThrow(() -> new RuntimeException("Lote não encontrado"));
+    }
+
+    public void deleteLot(Long id) {
+        lotRepository.deleteById(id);
     }
 }

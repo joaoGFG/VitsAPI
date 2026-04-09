@@ -1,7 +1,6 @@
 package br.com.vits.orc.vits_agrochain.service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -44,39 +43,14 @@ public class UserService implements UserDetailsService {
         return userRepository.save(user);
     }
 
-    public User createUser(String name, String email, String password) {
+    public User createUser(String name, String email, String password, String cpf) {
         User user = new User();
         user.setName(name);
         user.setEmail(email);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setRegistrationDate(LocalDateTime.now());
+        user.setCpf(cpf);
+        user.setPassword(password);
         
-        // Busca UserType PRODUTOR, caso não exista, utiliza o primeiro disponível
-        UserType userType = null;
-        try {
-            userType = userTypeService.getUserTypeByDescription("PRODUTOR");
-        } catch (Exception e) {
-            // Se PRODUTOR não existir, busca qualquer UserType
-            List<UserType> allUserTypes = userTypeService.listAll();
-            if (!allUserTypes.isEmpty()) {
-                userType = allUserTypes.get(0);
-            }
-        }
-        
-        // Se ainda assim não encontrou nenhum UserType, lance exceção
-        if (userType == null) {
-            throw new ResponseStatusException(
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                "Nenhum UserType disponível no sistema"
-            );
-        }
-        
-        user.setUserType(userType);
-        return userRepository.save(user);
-    }
-
-    public List<User> listAll() {
-        return userRepository.findAll();
+        return createUser(user);
     }
 
     public Page<User> listAllPaginated(Pageable pageable) {

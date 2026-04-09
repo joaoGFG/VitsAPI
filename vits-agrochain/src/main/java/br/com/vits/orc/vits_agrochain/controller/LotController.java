@@ -1,71 +1,91 @@
 package br.com.vits.orc.vits_agrochain.controller;
 
-import java.util.List;
-
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.PagedModel;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-
+import br.com.vits.orc.vits_agrochain.dto.LotRequest;
+import br.com.vits.orc.vits_agrochain.dto.LotResponse;
+import br.com.vits.orc.vits_agrochain.model.Culture;
 import br.com.vits.orc.vits_agrochain.model.Lot;
+import br.com.vits.orc.vits_agrochain.model.Property;
+import br.com.vits.orc.vits_agrochain.repository.CultureRepository;
+import br.com.vits.orc.vits_agrochain.repository.PropertyRepository;
 import br.com.vits.orc.vits_agrochain.service.LotService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.*;
 
-@Slf4j
+import jakarta.validation.Valid;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 @RestController
-@RequestMapping("/lots")
-@Tag(name = "Lotes", description = "Gerenciamento de lotes do sistema Verdantis")
+@RequestMapping("/lotes")
 public class LotController {
 
-	private final LotService lotService;
+    private final LotService lotService;
+    private final CultureRepository cultureRepository;
+    private final PropertyRepository propertyRepository;
 
-	public LotController(LotService lotService) {
-		this.lotService = lotService;
-	}
+    public LotController(LotService lotService, CultureRepository cultureRepository, PropertyRepository propertyRepository) {
+        this.lotService = lotService;
+        this.cultureRepository = cultureRepository;
+        this.propertyRepository = propertyRepository;
+    }
 
-	@GetMapping
-	@Operation(summary = "Listar todos os lotes com paginação", description = "Retorna lista paginada de lotes com links HATEOAS")
-	public PagedModel<EntityModel<Lot>> getAll(
-			@PageableDefault(size = 10, sort = "lotNumber") Pageable pageable,
-			PagedResourcesAssembler<Lot> assembler) {
-		log.info("Listando lotes paginados - página: {}, tamanho: {}", pageable.getPageNumber(), pageable.getPageSize());
-		var page = lotService.listAllPaginated(pageable);
-		return assembler.toModel(page, Lot::toEntityModel);
-	}
+    private LotResponse convertToResponse(Lot lot) {
+        Double totalProduction = lot.getTotalProduction() != null ? lot.getTotalProduction() : 0.0;
+        Double salePrice = lot.getSalePrice() != null ? lot.getSalePrice() : 0.0;
+        Double totalCost = lot.getTotalCost() != null ? lot.getTotalCost() : 0.0;
+        Double estimatedRevenue = totalProduction * salePrice;
+        Double estimatedProfit = estimatedRevenue - totalCost;
+        
+        return new LotResponse(
+                lot.getLotId(),
+                "Lote " + lot.getLotNumber(), 
+                lot.getCulture() != null ? lot.getCulture().getCultureName() : "N/A",
+                totalProduction,
+                totalCost,
+                estimatedRevenue,
+                estimatedProfit,
+                lot.getLotStatus() != null && lot.getLotStatus() == 1 ? "finalizado" : "ativo"
+        );
+    }
 
-	@GetMapping("/all")
-	@Operation(summary = "Listar todos os lotes sem paginação", description = "Retorna lista completa de lotes")
-	public List<Lot> listAll() {
-		log.info("Listando todos os lotes");
-		return lotService.listAll();
-	}
+    @PostMapping
+    @ResponseStatus(org.springframework.http.HttpStatus.CREATED)
+    public void createLot(@RequestBody @Valid LotRequest request) {
+        Culture culture = cultureRepository.findAll().stream().findFirst().orElse(null);
+        Property property = propertyRepository.findAll().stream().findFirst().orElse(null);
 
-	@GetMapping("/{id}")
-	@Operation(summary = "Buscar lote por ID", description = "Retorna um lote específico com links HATEOAS")
-	public EntityModel<Lot> getById(@PathVariable Long id) {
-		log.info("Buscando lote com id: {}", id);
-		var lot = lotService.getLotById(id);
-		return lot.toEntityModel();
-	}
+        Lot lot = Lot.builder()
+                .lotNumber((int)(Math.random() * 1000))
+                .plantingDate(LocalDate.now())
+                .lotStatus(0) // 0 = ativo
+                .lotArea("100ha")
+                .totalProduction(request.totalProduction())
+                .totalCost(request.totalCost())
+                .salePrice(request.salePrice())
+                .culture(culture)
+                .property(property)
+                .build();
+        
+        lotService.createLot(lot);
+    }
 
-	@PostMapping
-	@ResponseStatus(HttpStatus.CREATED)
-	@Operation(summary = "Criar novo lote", description = "Cria um novo lote")
-	public Lot createLot(@RequestBody @Valid Lot lot) {
-		log.info("Criando lote: {}", lot);
-		return lotService.createLot(lot);
-	}
+    @GetMapping
+    public List<LotResponse> getAll() {
+        return lotService.listAll().stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+    }
 
+    @GetMapping("/{id}")
+    public List<LotResponse> getById(@PathVariable Long id) {
+        Lot lot = lotService.findById(id);
+        return List.of(convertToResponse(lot));
+    }
+
+    @DeleteMapping("/{id}")
+    public Map<String, String> deleteLot(@PathVariable Long id) {
+        lotService.deleteLot(id);
+        return Map.of("mensagem", "Lote removido com sucesso");
+    }
 }

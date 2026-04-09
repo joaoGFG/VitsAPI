@@ -38,7 +38,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public TokenResponse register(@Valid @RequestBody RegisterRequest request) {
-        userService.createUser(request.userName(), request.email(), request.password());
+        userService.createUser(request.userName(), request.email(), request.password(), request.cpf());
         var authentication = authenticationManager.authenticate(
             new UsernamePasswordAuthenticationToken(request.email(), request.password())
         );

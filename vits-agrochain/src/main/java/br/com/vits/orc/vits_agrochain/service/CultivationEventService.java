@@ -36,25 +36,25 @@ public class CultivationEventService {
                 .orElseThrow(() -> new RuntimeException("Lote não encontrado: " + lotId));
 
         CultivationEvent event = CultivationEvent.builder()
-                .lot(lot)
-                .eventType(dto.eventType())
-                .description(dto.description())
-                .plantingDate(dto.plantingDate() != null ? dto.plantingDate().toLocalDate() : LocalDate.now())
-                .estimatedHarvestDate(dto.estimatedHarvestDate() != null ? dto.estimatedHarvestDate().toLocalDate() : LocalDate.now().plusDays(90))
+                .lote(lot)
+                .tipoEvento(dto.eventType())
+                .descricao(dto.description())
+                .dataPlantio(dto.plantingDate() != null ? dto.plantingDate().toLocalDate() : LocalDate.now())
+                .dataColheitaEstimada(dto.estimatedHarvestDate() != null ? dto.estimatedHarvestDate().toLocalDate() : LocalDate.now().plusDays(90))
                 .build();
 
         return eventRepository.save(event);
     }
 
     public List<CultivationEventDto> getEventsByLot(Long lotId) {
-        return eventRepository.findByLotLotIdOrderByPlantingDateAsc(lotId).stream()
+        return eventRepository.findByLoteIdOrderByDataPlantioAsc(lotId).stream()
                 .map(e -> new CultivationEventDto(
                         e.getId(),
-                        e.getLot().getLotId(),
-                        e.getEventType(),
-                        e.getDescription(),
-                        e.getPlantingDate().atStartOfDay(),
-                        e.getEstimatedHarvestDate() != null ? e.getEstimatedHarvestDate().atStartOfDay() : null
+                        e.getLote().getLotId(),
+                        e.getTipoEvento(),
+                        e.getDescricao(),
+                        e.getDataPlantio().atStartOfDay(),
+                        e.getDataColheitaEstimada() != null ? e.getDataColheitaEstimada().atStartOfDay() : null
                 )).collect(Collectors.toList());
     }
 
@@ -71,13 +71,13 @@ public class CultivationEventService {
         lotRepository.save(lot);
 
         // Buscar histórico de eventos
-        List<CultivationEvent> events = eventRepository.findByLotLotIdOrderByPlantingDateAsc(lotId);
+        List<CultivationEvent> events = eventRepository.findByLoteIdOrderByDataPlantioAsc(lotId);
         
         List<String> eventSummaries = events.stream()
                 .map(e -> String.format("[%s] - %s: %s", 
-                        e.getPlantingDate(), 
-                        e.getEventType(), 
-                        e.getDescription() != null ? e.getDescription() : "Sem descrição"))
+                        e.getDataPlantio(), 
+                        e.getTipoEvento(), 
+                        e.getDescricao() != null ? e.getDescricao() : "Sem descrição"))
                 .collect(Collectors.toList());
 
         // Calcular Totais e Financeiros

@@ -29,17 +29,17 @@ public class TokenService {
                 .issuedAt(now)
                 .expiresAt(now.plus(24, ChronoUnit.HOURS))
                 .subject(user.getEmail()) 
-                .claim("id", user.getUserId()) 
+                .claim("id", user.getId()) 
                 .build();
         
         String token = this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
 
         return new TokenResponse(
             token,
-            user.getUserId(),
+            user.getId(),
             user.getName(),            
             user.getEmail(),
-            user.getUserType().getUserDescription()
+            null
         );
     }
 }

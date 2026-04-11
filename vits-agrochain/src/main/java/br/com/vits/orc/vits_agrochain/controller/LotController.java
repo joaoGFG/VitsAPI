@@ -2,16 +2,12 @@ package br.com.vits.orc.vits_agrochain.controller;
 
 import br.com.vits.orc.vits_agrochain.dto.LotRequest;
 import br.com.vits.orc.vits_agrochain.dto.LotResponse;
-import br.com.vits.orc.vits_agrochain.model.Culture;
 import br.com.vits.orc.vits_agrochain.model.Lot;
-import br.com.vits.orc.vits_agrochain.model.Property;
-import br.com.vits.orc.vits_agrochain.repository.CultureRepository;
-import br.com.vits.orc.vits_agrochain.repository.PropertyRepository;
+import br.com.vits.orc.vits_agrochain.repository.UserRepository;
 import br.com.vits.orc.vits_agrochain.service.LotService;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,13 +17,11 @@ import java.util.stream.Collectors;
 public class LotController {
 
     private final LotService lotService;
-    private final CultureRepository cultureRepository;
-    private final PropertyRepository propertyRepository;
+    private final UserRepository userRepository;
 
-    public LotController(LotService lotService, CultureRepository cultureRepository, PropertyRepository propertyRepository) {
+    public LotController(LotService lotService, UserRepository userRepository) {
         this.lotService = lotService;
-        this.cultureRepository = cultureRepository;
-        this.propertyRepository = propertyRepository;
+        this.userRepository = userRepository;
     }
 
     private LotResponse convertToResponse(Lot lot) {
@@ -52,20 +46,18 @@ public class LotController {
     @PostMapping
     @ResponseStatus(org.springframework.http.HttpStatus.CREATED)
     public void createLot(@RequestBody @Valid LotRequest request) {
-        Culture culture = cultureRepository.findAll().stream().findFirst().orElse(null);
-        Property property = propertyRepository.findAll().stream().findFirst().orElse(null);
+        var user = userRepository.findAll().stream().findFirst()
+            .orElseThrow(() -> new RuntimeException("Nenhum usuário encontrado para vincular ao lote"));
 
         Lot lot = Lot.builder()
-                .lotNumber((int)(Math.random() * 1000))
-                .plantingDate(LocalDate.now())
-                .lotStatus(0) // 0 = ativo
-                .lotArea("100ha")
-                .totalProduction(request.totalProduction())
-                .totalCost(request.totalCost())
-                .salePrice(request.salePrice())
-                .culture(culture)
-                .property(property)
-                .build();
+            .nomeLote(request.lotName())
+            .cultura(request.culture())
+            .producaoTotal(request.totalProduction() == null ? null : java.math.BigDecimal.valueOf(request.totalProduction()))
+            .custoTotal(request.totalCost() == null ? null : java.math.BigDecimal.valueOf(request.totalCost()))
+            .precoVenda(request.salePrice() == null ? null : java.math.BigDecimal.valueOf(request.salePrice()))
+            .status("ativo")
+            .usuario(user)
+            .build();
         
         lotService.createLot(lot);
     }

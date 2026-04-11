@@ -13,55 +13,93 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "VITS_ORC_LOTE")
+@Table(name = "LOTES")
 public class Lot {
 
     @Id
-    @GeneratedValue(
-        strategy = GenerationType.SEQUENCE,
-        generator = "lote_seq_gen"
-    )
-    @SequenceGenerator(
-        name = "lote_seq_gen",
-        sequenceName = "SEQ_LOTE",
-        allocationSize = 1
-    )
-    @Column(name = "vits_id_lote")
-    private Long lotId;
-
-    @NotNull
-    @Column(name = "vits_num_lote")
-    private Integer lotNumber;
-
-    @NotNull
-    @Column(name = "vits_data_plantio")
-    private LocalDate plantingDate;
-
-    @NotNull
-    @Column(name = "vits_status_lote")
-    private Integer lotStatus; // 0 or 1
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
 
     @NotBlank
-    @Size(max = 20)
-    @Column(name = "vits_area_lote")
-    private String lotArea;
+    @Size(max = 255)
+    @Column(name = "nome_lote")
+    private String nomeLote;
 
-    @Column(name = "vits_producao_estimada")
-    private Double totalProduction;
+    @NotBlank
+    @Size(max = 100)
+    @Column(name = "cultura")
+    private String cultura;
 
-    @Column(name = "vits_custo_estimado")
-    private Double totalCost;
+    @NotNull
+    @Column(name = "producao_total")
+    private java.math.BigDecimal producaoTotal;
 
-    @Column(name = "vits_preco_venda")
-    private Double salePrice;
+    @NotNull
+    @Column(name = "custo_total")
+    private java.math.BigDecimal custoTotal;
+
+    @NotNull
+    @Column(name = "preco_venda")
+    private java.math.BigDecimal precoVenda;
+
+    @Column(name = "status")
+    private String status;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "vits_id_prop")
-    private Property property;
+    @JoinColumn(name = "usuario_id")
+    private User usuario;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "vits_id_cultura")
-    private Culture culture;
+    // Compatibility getters expected by existing services
+    public Double getTotalProduction() {
+        return this.producaoTotal == null ? null : this.producaoTotal.doubleValue();
+    }
+
+    public void setTotalProduction(Double totalProduction) {
+        this.producaoTotal = totalProduction == null ? null : java.math.BigDecimal.valueOf(totalProduction);
+    }
+
+    public Double getTotalCost() {
+        return this.custoTotal == null ? null : this.custoTotal.doubleValue();
+    }
+
+    public void setTotalCost(Double totalCost) {
+        this.custoTotal = totalCost == null ? null : java.math.BigDecimal.valueOf(totalCost);
+    }
+
+    public Double getSalePrice() {
+        return this.precoVenda == null ? null : this.precoVenda.doubleValue();
+    }
+
+    public void setSalePrice(Double salePrice) {
+        this.precoVenda = salePrice == null ? null : java.math.BigDecimal.valueOf(salePrice);
+    }
+
+    public Long getLotId() {
+        return this.id;
+    }
+
+    public Integer getLotNumber() {
+        return this.id == null ? null : this.id.intValue();
+    }
+
+    public Integer getLotStatus() {
+        if (this.status == null) return null;
+        String normalized = this.status.trim().toLowerCase();
+        return normalized.equals("finalizado") ? 1 : 0;
+    }
+
+    public void setLotStatus(Integer lotStatus) {
+        if (lotStatus == null) {
+            this.status = null;
+            return;
+        }
+        this.status = lotStatus == 1 ? "finalizado" : "ativo";
+    }
+
+    public Culture getCulture() {
+        if (this.cultura == null) return null;
+        return new Culture(null, this.cultura, null, null);
+    }
 }

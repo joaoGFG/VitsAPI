@@ -81,8 +81,11 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // Allow only the frontend origin and enable credentials
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+        // Permitir origem do frontend e habilitar credenciais
+        configuration.setAllowedOrigins(Arrays.asList(
+            "http://localhost:3000",
+            "https://verdantis-webapp-vits.vercel.app"
+        ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization", "X-Requested-With", "Accept"));
         configuration.setAllowCredentials(true);

@@ -1,15 +1,15 @@
-// API Configuration
+// Configuração da API
 const API_BASE_URL = 'http://localhost:8080';
 let authToken = localStorage.getItem('authToken');
 let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
 
-// Initialize app
+// Inicializar app
 document.addEventListener('DOMContentLoaded', () => {
     updateUIBasedOnAuth();
 });
 
 // ----------------------------------------------------
-// Navigation Functions
+// Funções de navegação
 // ----------------------------------------------------
 function navigate(section) {
     // Esconder todas as seções
@@ -75,7 +75,7 @@ function updateUIBasedOnAuth() {
 }
 
 // ----------------------------------------------------
-// Authentication Functions
+// Funções de autenticação
 // ----------------------------------------------------
 async function handleLogin(e) {
     e.preventDefault();
@@ -158,7 +158,7 @@ function logout() {
 }
 
 // ----------------------------------------------------
-// Data Loading Functions
+// Funções de carregamento de dados
 // ----------------------------------------------------
 async function loadData(endpoint) {
     const container = document.getElementById('moduleContent');
@@ -236,7 +236,7 @@ function extractDetails(item) {
 }
 
 // ----------------------------------------------------
-// UI Alert Functions
+// Funções de alertas da interface
 // ----------------------------------------------------
 function showError(message) {
     createAlert(message, 'error');
@@ -257,10 +257,10 @@ function createAlert(message, type) {
     
     container.appendChild(alert);
     
-    // Animate In
+    // Animar entrada
     setTimeout(() => alert.classList.add('show'), 10);
     
-    // Remove after 4s
+    // Remover após 4s
     setTimeout(() => {
         alert.classList.remove('show');
         setTimeout(() => alert.remove(), 300);
